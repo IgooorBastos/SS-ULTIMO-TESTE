@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sunvolt.ie - Solar Site Survey</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-container">
+        <img src="logo.png" alt="Sunvolt Logo">
+    </div>
+
+    <h1>Solar Site Survey</h1>
+
+    <div class="toggle-buttons-container">
+  <!-- Botão ABRIR todas -->
+  <button
+    type="button"
+    class="control-btn open"
+    aria-label="Abrir todas"
+    title="Abrir todas"
+    onclick="toggleAllDetails(true)">
+  </button>
+
+  <!-- Botão FECHAR todas -->
+  <button
+    type="button"
+    class="control-btn close"
+    aria-label="Fechar todas"
+    title="Fechar todas"
+    onclick="toggleAllDetails(false)">
+  </button>
+</div>
+
+
+    <form id="solarSurveyForm" novalidate>
+        <!-- Seção: Informações Básicas -->
+        <details open>
+            <summary>
+                Basic Information
+                <input type="checkbox" class="section-check" id="check-basic">
+                <label for="check-basic" class="check-label"></label>
+            </summary>
+            <div class="details-content">
+                <div class="form-grid">
+                    <div class="field-group">
+                        <label for="address">Property Address:</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    <div class="field-group">
+                        <label for="datetime">Date and Time:</label>
+                        <input type="datetime-local" id="datetime" name="datetime" required>
+                    </div>
+                    <div class="field-group">
+                        <label for="surveyor">Surveyor Name:</label>
+                        <input type="text" id="surveyor" name="surveyor" value="Igor Bastos" required>
+                    </div>
+                    <div class="field-group">
+                        <label for="customer">Customer Name:</label>
+                        <input type="text" id="customer" name="customer" required>
+                    </div>
+                    <div class="field-group">
+                        <label for="contact">Contact Details:</label>
+                        <input type="tel" id="contact" name="contact" required>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <!-- Seção: Verificação de WiFi -->
+        <details>
+            <summary>
+                WiFi Signal Check
+                <input type="checkbox" class="section-check" id="check-wifi">
+                <label for="check-wifi" class="check-label"></label>
+            </summary>
+            <div class="details-content">
+                <div class="check-group">
+                    <label>WiFi signal strong enough for inverter connection:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="wifiYes" name="wifiStrong" value="Yes" required><label for="wifiYes">Yes</label>
+                        <input type="radio" id="wifiNo" name="wifiStrong" value="No"><label for="wifiNo">No</label>
+                    </div>
+                    <div class="photo-input">
+                        <label for="wifiPhoto">Anexar Foto</label>
+                        <input type="file" id="wifiPhoto" name="wifiPhoto" accept="image/*" onchange="previewPhotos(event, 'wifiPreview', this.id)">
+                    </div>
+                </div>
+                <div class="preview-container" id="wifiPreview"></div>
+                <div class="form-grid">
+                    <div class="field-group">
+                        <label for="signalStrength">Signal Strength (dBm): <small>(optional)</small></label>
+                        <input type="number" id="signalStrength" name="signalStrength" step="1">
+                    </div>
+                </div>
+                <div class="notes-wrapper">
+                    <button type="button" class="add-notes-btn" onclick="toggleNotes(this)">Adicionar Nota</button>
+                    <textarea id="wifiNotes" name="wifiNotes" class="notes-field" placeholder="Add notes if needed"></textarea>
+                </div>
+            </div>
+        </details>
+        
+        <!-- Seção: Aterramento -->
+        <details>
+            <summary>
+                Earthing System Check
+                <input type="checkbox" class="section-check" id="check-earthing">
+                <label for="check-earthing" class="check-label"></label>
+            </summary>
+            <div class="details-content">
+                <div class="check-group">
+                    <label>Earthing rod exists:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="earthingRodYes" name="earthingRod" value="Yes" required><label for="earthingRodYes">Yes</label>
+                        <input type="radio" id="earthingRodNo" name="earthingRod" value="No"><label for="earthingRodNo">No</label>
+                    </div>
+                    <div class="photo-input">
+                        <label for="rodPhoto">Anexar Foto</label>
+                        <input type="file" id="rodPhoto" name="rodPhoto" accept="image/*" onchange="previewPhotos(event, 'rodPreview', this.id)">
+                    </div>
+                </div>
+                <div class="preview-container" id="rodPreview"></div>
+                
+                <div class="field-group">
+                    <label for="rodLocation">Location (optional):</label>
+                    <input type="text" id="rodLocation" name="rodLocation">
+                </div>
+                
+                <div class="notes-wrapper">
+                    <button type="button" class="add-notes-btn" onclick="toggleNotes(this)">Adicionar Nota</button>
+                    <textarea id="earthingNotes" name="earthingNotes" class="notes-field"></textarea>
+                </div>
+                
+                <div class="check-group">
+                    <label>Gas meter bonded to earthing:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="gasYes" name="gasMeterBonded" value="Yes" required><label for="gasYes">Yes</label>
+                        <input type="radio" id="gasNo" name="gasMeterBonded" value="No"><label for="gasNo">No</label>
+                    </div>
+                    <div class="photo-input">
+                        <label for="gasPhoto">Anexar Foto</label>
+                        <input type="file" id="gasPhoto" name="gasPhoto" accept="image/*" onchange="previewPhotos(event, 'gasPreview', this.id)">
+                    </div>
+                </div>
+                <div class="preview-container" id="gasPreview"></div>
+                
+                <div class="notes-wrapper">
+                    <button type="button" class="add-notes-btn" onclick="toggleNotes(this)">Adicionar Nota</button>
+                    <textarea id="gasBondedNotes" name="gasBondedNotes" class="notes-field"></textarea>
+                </div>
+
+                <div class="check-group">
+                    <label>Boiler bonded to earthing:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="boilerYes" name="boilerBonded" value="Yes" required><label for="boilerYes">Yes</label>
+                        <input type="radio" id="boilerNo" name="boilerBonded" value="No"><label for="boilerNo">No</label>
+                    </div>
+                    <div class="photo-input">
+                        <label for="boilerPhoto">Anexar Foto</label>
+                        <input type="file" id="boilerPhoto" name="boilerPhoto" accept="image/*" onchange="previewPhotos(event, 'boilerPreview', this.id)">
+                    </div>
+                </div>
+                <div class="preview-container" id="boilerPreview"></div>
+                
+                <div class="notes-wrapper">
+                    <button type="button" class="add-notes-btn" onclick="toggleNotes(this)">Adicionar Nota</button>
+                    <textarea id="boilerBondedNotes" name="boilerBondedNotes" class="notes-field"></textarea>
+                </div>
+            </div>
+        </details>
+
+        <!-- Seção: Condição do Sótão e Telhado -->
+        <details>
+            <summary>
+                Attic and Roof Condition Check
+                <input type="checkbox" class="section-check" id="check-attic">
+                <label for="check-attic" class="check-label"></label>
+            </summary>
+            <div class="details-content">
+                <div class="field-group">
+                    <label for="atticRoofCondition">Roof condition in attic (optional):</label>
+                    <textarea id="atticRoofCondition" name="atticRoofCondition"></textarea>
+                </div>
+                <div class="check-group">
+                    <label>Suitable for installation:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="atticYes" name="atticRoofSuitable" value="Yes" required><label for="atticYes">Yes</label>
+                        <input type="radio" id="atticNo" name="atticRoofSuitable" value="No"><label for="atticNo">No</label>
+                    </div>
+                    <div class="photo-input">
+                        <label for="atticPhotos">Anexar Fotos</label>
+                        <input type="file" id="atticPhotos" name="atticPhotos" accept="image/*" multiple onchange="previewPhotos(event, 'atticPreview', this.id)">
+                    </div>
+                </div>
+                <div class="preview-container" id="atticPreview"></div>
+                
+                <div class="notes-wrapper">
+                    <button type="button" class="add-notes-btn" onclick="toggleNotes(this)">Adicionar Nota</button>
+                    <textarea id="atticNotes" name="atticNotes" class="notes-field"></textarea>
+                </div>
+                
+                <div class="field-group">
+                    <label for="inverterSpace">Possible space for inverter installation (optional):</label>
+                    <textarea id="inverterSpace" name="inverterSpace"></textarea>
+                </div>
+                <div class="check-group">
+                    <label>Feasible:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="inverterYes" name="inverterFeasible" value="Yes" required><label for="inverterYes">Yes</label>
+                        <input type="radio" id="inverterNo" name="inverterFeasible" value="No"><label for="inverterNo">No</label>
+                    </div>
+                </div>
+                
+                <div class="notes-wrapper">
+                    <button type="button" class="add-notes-btn" onclick="toggleNotes(this)">Adicionar Nota</button>
+                    <textarea id="inverterNotes" name="inverterNotes" class="notes-field"></textarea>
+                </div>
+            </div>
+        </details>
+
+        <!-- Seção: Sistema Elétrico -->
+        <details>
+            <summary>
+                Electrical System Check
+                <input type="checkbox" class="section-check" id="check-electrical">
+                <label for="check-electrical" class="check-label"></label>
+            </summary>
+            <div class="details-content">
+                <div class="field-group">
+                    <label for="fuseBoards">Fuse boards available (optional):</label>
+                    <input type="text" id="fuseBoards" name="fuseBoards">
+                </div>
+                <div class="field-group">
+                    <label for="fuseBoardCondition">Condition (optional):</label>
+                    <textarea id="fuseBoardCondition" name="fuseBoardCondition"></textarea>
+                </div>
+                
+                <div class="notes-wrapper">
+                    <button type="button" class="add-notes-btn" onclick="toggleNotes(this)">Adicionar Nota</button>
+                    <textarea id="fuseBoardNotes" name="fuseBoardNotes" class="notes-field"></textarea>
+                </div>
+                
+                <div class="photo-input">
+                    <label for="fusePhotos">Anexar Fotos do Quadro</label>
+                    <input type="file" id="fusePhotos" name="fusePhotos" accept="image/*" multiple onchange="previewPhotos(event, 'fusePreview', this.id)">
+                </div>
+                <div class="preview-container" id="fusePreview"></div>
+                
+                <hr>
+                
+                <div class="field-group">
+                    <label for="meterDetails">Electrical meter condition (optional):</label>
+                    <input type="text" id="meterDetails" name="meterDetails">
+                </div>
+                
+                <div class="notes-wrapper">
+                    <button type="button" class="add-notes-btn" onclick="toggleNotes(this)">Adicionar Nota</button>
+                    <textarea id="meterNotes" name="meterNotes" class="notes-field"></textarea>
+                </div>
+                
+                <div class="photo-input">
+                     <label for="meterPhoto">Anexar Foto do Medidor</label>
+                     <input type="file" id="meterPhoto" name="meterPhoto" accept="image/*" onchange="previewPhotos(event, 'meterPreview', this.id)">
+                </div>
+                <div class="preview-container" id="meterPreview"></div>
+            </div>
+        </details>
+        
+        <!-- Seção: Medidas do Telhado E Esboço -->
+        <details>
+            <summary>
+                Roof Measurement and Confirmation
+                <input type="checkbox" class="section-check" id="check-roof">
+                <label for="check-roof" class="check-label"></label>
+            </summary>
+            <div class="details-content">
+                <div class="form-grid">
+                    <div class="field-group">
+                        <label for="roofLength">Length (m):</label>
+                        <input type="number" id="roofLength" name="roofLength" step="0.01">
+                    </div>
+                    <div class="field-group">
+                        <label for="roofWidth">Width (m):</label>
+                        <input type="number" id="roofWidth" name="roofWidth" step="0.01">
+                    </div>
+                    <div class="field-group">
+                        <label for="roofArea">Total Area (m&sup2;):</label>
+                        <input type="number" id="roofArea" name="roofArea" readonly>
+                    </div>
+                    <div class="field-group">
+                        <label for="roofPitch">Pitch / Angle (&deg;):</label>
+                        <input type="number" id="roofPitch" name="roofPitch" step="0.1">
+                    </div>
+                    <div class="field-group">
+                        <label for="roofOrientation">Orientation:</label>
+                        <input type="text" id="roofOrientation" name="roofOrientation">
+                    </div>
+                </div>
+                
+                <div class="field-group">
+                    <label for="roofOther">Other details:</label>
+                    <textarea id="roofOther" name="roofOther"></textarea>
+                </div>
+                <div class="field-group">
+                    <label for="measurementConfirmation">Confirmation of measurements:</label>
+                    <input type="text" id="measurementConfirmation" name="measurementConfirmation">
+                </div>
+                
+                <div class="notes-wrapper">
+                    <button type="button" class="add-notes-btn" onclick="toggleNotes(this)">Adicionar Nota</button>
+                    <textarea id="roofNotes" name="roofNotes" class="notes-field" placeholder="e.g., number of feasible panels"></textarea>
+                </div>
+                
+                <div class="photo-input">
+                    <label for="roofPhotos">Anexar Fotos do Telhado</label>
+                    <input type="file" id="roofPhotos" name="roofPhotos" accept="image/*" multiple onchange="previewPhotos(event, 'roofPreview', this.id)">
+                </div>
+                <div class="preview-container" id="roofPreview"></div>
+
+                <hr>
+
+                <p>Use pen or finger to draw the roof or notes here. Save to include image when printing.</p>
+                <canvas id="sketchCanvas"></canvas>
+                <div class="canvas-buttons">
+                    <button type="button" class="primary" onclick="saveSketch()">Save Sketch</button>
+                    <button type="button" class="secondary" onclick="clearCanvas()">Clear Sketch</button>
+                </div>
+                <input type="hidden" name="sketchImage" id="sketchImage">
+            </div>
+        </details>
+
+        <!-- Seção: Avaliação Final -->
+        <details>
+            <summary>
+                Overall Assessment
+                <input type="checkbox" class="section-check" id="check-assessment">
+                <label for="check-assessment" class="check-label"></label>
+            </summary>
+            <div class="details-content">
+                <div class="check-group">
+                    <label>All checks completed:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="allDoneYes" name="allChecksDone" value="Yes" required><label for="allDoneYes">Yes</label>
+                        <input type="radio" id="allDoneNo" name="allChecksDone" value="No"><label for="allDoneNo">No</label>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label for="recommendations">Recommendations / Next Steps:</label>
+                    <textarea id="recommendations" name="recommendations"></textarea>
+                </div>
+                <div class="field-group">
+                    <label for="digitalSignature">Digital Signature:</label>
+                    <input type="text" id="digitalSignature" name="digitalSignature" placeholder="Type your signature">
+                </div>
+            </div>
+        </details>
+
+        <!-- Botão Final CORRIGIDO -->
+<div class="final-buttons">
+    <button type="button" class="accent" onclick="generatePDF()">
+        📄 Gerar Relatório PDF
+    </button>
+</div>
+    </form>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
